@@ -488,8 +488,8 @@ It refers to a [TLS Options](../../https/tls.md#tls-options) and will be applied
         minVersion = "VersionTLS12"
         cipherSuites = [
           "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
-          "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
-          "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256",
+          "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305",
+          "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305",
           "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
           "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
         ]
@@ -512,8 +512,8 @@ It refers to a [TLS Options](../../https/tls.md#tls-options) and will be applied
           minVersion: VersionTLS12
           cipherSuites:
             - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-            - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256
-            - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
+            - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+            - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
             - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
             - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
     ```
@@ -775,6 +775,7 @@ If you want to limit the router scope to a set of entry points, set the entry po
 | Rule                           | Description                                                             |
 |--------------------------------|-------------------------------------------------------------------------|
 | ```HostSNI(`domain-1`, ...)``` | Check if the Server Name Indication corresponds to the given `domains`. |
+| ```HostSNIRegexp(`example.com`, `{subdomain:[a-z]+}.example.com`, ...)``` | Check if the Server Name Indication matches the given regexp. |
 
 !!! important "HostSNI & TLS"
 
@@ -795,10 +796,11 @@ Services are the target for the router.
 
 When a TLS section is specified,
 it instructs Traefik that the current router is dedicated to TLS requests only (and that the router should ignore non-TLS requests).
+ 
+By default, Traefik will terminate the SSL connections (meaning that it will send decrypted data to the services),
+but Traefik can be configured in order to let the requests pass through (keeping the data encrypted), and be forwarded to the service "as is". 
 
-By default, a router with a TLS section will terminate the TLS connections, meaning that it will send decrypted data to the services.
-
-??? example "Router for TLS requests"
+??? example "Configuring TLS Termination"
 
     ```toml tab="File (TOML)"
     ## Dynamic configuration
@@ -820,13 +822,6 @@ By default, a router with a TLS section will terminate the TLS connections, mean
           # will terminate the TLS request by default
           tls: {}
     ```
-
-#### `passthrough`
-
-As seen above, a TLS router will terminate the TLS connection by default.
-However, the `passthrough` option can be specified to set whether the requests should be forwarded "as is", keeping all data encrypted.
-
-It defaults to `false`.
 
 ??? example "Configuring passthrough"
 
@@ -873,8 +868,8 @@ It refers to a [TLS Options](../../https/tls.md#tls-options) and will be applied
         minVersion = "VersionTLS12"
         cipherSuites = [
           "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
-          "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
-          "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256",
+          "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305",
+          "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305",
           "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
           "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
         ]
@@ -897,8 +892,8 @@ It refers to a [TLS Options](../../https/tls.md#tls-options) and will be applied
           minVersion: VersionTLS12
           cipherSuites:
             - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-            - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256
-            - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
+            - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+            - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
             - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
             - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
     ```
