@@ -62,7 +62,7 @@ func parseDomain(tree *tree) []string {
 	switch tree.matcher {
 	case "and", "or":
 		return append(parseDomain(tree.ruleLeft), parseDomain(tree.ruleRight)...)
-	case "Host", "HostSNI", "HostSNIRegex":
+	case "Host", "HostSNI", "HostSNIRegexp":
 		return tree.value
 	default:
 		return nil
@@ -138,19 +138,19 @@ func newTCPParser() (predicate.Parser, error) {
 
 
 	// FIXME quircky way of waiting for new rules
-	matcherNameRegex := "HostSNIRegex"
-	fnRegex := func(value ...string) treeBuilder {
+	matcherNameRegexp := "HostSNIRegexp"
+	fnRegexp := func(value ...string) treeBuilder {
 		return func() *tree {
 			return &tree{
-				matcher: matcherNameRegex,
+				matcher: matcherNameRegexp,
 				value:   value,
 			}
 		}
 	}
-	parserFuncs[matcherNameRegex] = fnRegex
-	parserFuncs[strings.ToLower(matcherNameRegex)] = fnRegex
-	parserFuncs[strings.ToUpper(matcherNameRegex)] = fnRegex
-	parserFuncs[strings.Title(strings.ToLower(matcherNameRegex))] = fnRegex
+	parserFuncs[matcherNameRegexp] = fnRegexp
+	parserFuncs[strings.ToLower(matcherNameRegexp)] = fnRegexp
+	parserFuncs[strings.ToUpper(matcherNameRegexp)] = fnRegexp
+	parserFuncs[strings.Title(strings.ToLower(matcherNameRegexp))] = fnRegexp
 
 	return predicate.NewParser(predicate.Def{
 		Operators: predicate.Operators{

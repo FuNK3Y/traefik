@@ -84,9 +84,6 @@ func (r *Router) ServeTCP(conn WriteCloser) {
 		if route.Match(req, &mux.RouteMatch{Route:route}) {
 			r.routingTable[routingKey].ServeTCP(r.GetConn(conn, peeked))
 			return
-		} else {
-			continue
-		}
 	}
 
 	// FIXME Needs tests

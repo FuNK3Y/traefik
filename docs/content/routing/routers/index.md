@@ -774,7 +774,8 @@ If you want to limit the router scope to a set of entry points, set the entry po
 
 | Rule                           | Description                                                             |
 |--------------------------------|-------------------------------------------------------------------------|
-| ```HostSNI(`domain-1`, ...)``` | Check if the Server Name Indication corresponds to the given `domains`. |
+| ```HostSNI(`example.com`, ...)``` | Check if the Server Name Indication corresponds to the given `domains`. |
+| ```HostSNIRegexp(`example.com`,`{subdomain:[a-z]+}.example.com`, ...)``` | Check if the Server Name Indication match the given `regexp`. |
 
 !!! important "HostSNI & TLS"
 
