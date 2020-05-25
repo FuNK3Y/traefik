@@ -85,6 +85,7 @@ func (r *Router) ServeTCP(conn WriteCloser) {
 			r.routingTable[routingKey].ServeTCP(r.GetConn(conn, peeked))
 			return
 		}
+	}
 
 	// FIXME Needs tests
 	if target, ok := r.routingTable["*"]; ok {
